@@ -1,0 +1,15 @@
+code, pre{
+    background-color: rgb(73, 79, 81);
+    color: #ffffff;
+    padding: 5px 10px;
+  }
+
+  code::selection {
+    background-color: #ed075f;
+    color: #ffffff;
+  }
+
+.heading_title {
+    border-bottom: 4px solid red;
+    margin-bottom: 10px;
+}

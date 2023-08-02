@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Một vài tips nhỏ trong docker-compose</title>
+    <link rel="stylesheet" href="./../css/style.css" />
+  </head>
+  <body>
+    <h1 class="heading_title">Một vài tips nhỏ trong docker-compose</h1>
+
+    <ol>
+      <li>
+        <p><strong>Gom nhóm các container chung dự án</strong></p>
+
+        <p>Ví dụ dự án ta có 3 container: mysql, haproxy, apache_php</p>
+        <p>
+          để gom nhóm 3 container trên lại, ta tạo file .env ở file
+          docker-compose.yml của mỗi container và thêm tham số
+          <code>COMPOSE_PROJECT_NAME</code>
+        </p>
+        <p>
+          sau khi build xong, các container có chung
+          <code>COMPOSE_PROJECT_NAME</code> sẽ gom nhóm lại với nhau
+        </p>
+        <p>khi view bằng docker manager (portainer)</p>
+      </li>
+
+      <li>
+        <p><strong>Quản lý docker</strong></p>
+        <p>
+          Để trực quan và dễ kiểm soát hơn, nên cài các docker manager như
+          portainer, rancher, ... để quản lý các container
+        </p>
+      </li>
+
+      <li>
+        <p><strong>Thực thi cùng lúc nhiều file docker-compse</strong></p>
+
+        <p>
+          Trường hợp cần biên dịch nhiều file dock-compose thì có thể viết 1
+          đoạn script để thực thi
+        </p>
+        <p>Ví dụ: tạo file tên docker-compose.sh</p>
+        <p>
+          Mở terminal linux (wsl, git bash,...), chạy lệnh:
+          <code class="code-style">./đường dẫn/docker-compose.sh</code>
+        </p>
+        <p>Code của file docker-compose.sh</p>
+        <pre class="code-style">
+        
+        #!/bin/bash  
+
+        # Dấu # phía trên dòng này là lệnh của bash, không phải comment, các dấu # dưới dòng này là comment
+
+        #
+        # Chỉ đường dẫn tới file docker-compose cần build
+        #
+        files=(
+            "./networks/docker-compose.yml"
+            "./mysql/docker-compose.yml"
+            "./haproxy/docker-compose.yml"
+        )
+
+        #
+        # print message thông báo màu mè hoa lá hẹ cho người dùng biết là script đã được thực thi
+        #
+        echo "******************************START SCRIPT***************************************"
+
+        #
+        # Step 1: Lặp qua từng dòng ở biến files phía trên
+        # Step 2: Thực thi lệnh docker-compose up/down, thêm --env-file
+        # để load các biến môi trường từ file .env
+
+        for file in "${files[@]}"
+        do
+            docker-compose --env-file ./env/.env_production -f $file up -d
+        done
+
+        echo "******************************END SCRIPT***************************************"
+
+    </pre
+        >
+
+        <p>
+          đoạn script trên có thể cải tiến thêm, ví dụ như sẽ cho promt input,
+          nếu người dùng chọn 1 thì up, 2 thì down,...
+        </p>
+      </li>
+
+      <li>
+        <p><strong>Phân phối tài nguyên cpu, ram, ổ cứng của docker desktop khi dùng wsl</strong></p>
+        <p>Nếu dùng docker bằng docker desktop, sẽ gặp trường hợp là docker desktop sử dụng cpu, ram rất nhiều và ảnh hưởng tới máy host đang chạy</p>
+        <p>Nếu muốn quy định tài nguyên sử dụng của docker. Ở windows, mở cửa sổ Run:  <code> Win + R</code></p>
+        <p>gõ lệnh <code>%userprofile%</code> để tới folder user đang sử dụng, tạo file tên <code>.wslconfig</code> </p>
+        <p>trong file này, quy định ram, cpu tối đa mà docker desktop có thể sử dụng</p>
+        <p>Ví dụ</p>
+        <p>
+            <pre>
+    [wsl2]
+
+    #RAM
+    memory=3GB
+
+    # For older OS version, example: CentOS 6.5
+    kernelCommandLine = vsyscall=emulate
+            </pre>
+        </p>
+        <p>Tham khảo: <pre>https://learn.microsoft.com/en-us/windows/wsl/wsl-config</pre></p>
+      </li>
+    </ol>
+
+    <p>Tham khảo: <a href="https://minhchieng.me" target="_blank">minhchiengdotme</a></p>
+  </body>
+</html>

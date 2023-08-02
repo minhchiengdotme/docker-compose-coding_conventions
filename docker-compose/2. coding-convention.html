@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>docker-compose coding-convention</title>
+    <link rel="stylesheet" href="./../css/style.css">
+</head>
+<body>
+    <h1 class="heading_title">Một vài quy tắc cơ bản khi viết docker-compose</h1>
+    <hr>
+    <ol>
+        <li>
+            <p>Các <code>services</code> trong file docker-compose nên sắp xếp theo thứ tự alphabet</p>
+            Ví dụ:
+            <pre class="code-style">
+                services:
+                    haproxy:
+                    mysql:
+                    network:
+            </pre>
+        </li>
+
+        <li>
+            <p>Các biến môi trường trong <code>ENVIRONMENT</code> nên sắp xếp theo thứ tự alphabet</p>
+        </li>
+        <li>
+            <p>Các <code>volumes</code> trong service nên sắp xếp tùy nhu cầu thực tế</p>
+        </li> 
+    </ol>
+
+    <p>Tham khảo: <a href="https://minhchieng.me" target="_blank">minhchiengdotme</a></p>
+</body>
+</html>
